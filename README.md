@@ -78,7 +78,10 @@ extra_configs = {'accesskey from ADF'}`
 - Get the extra configs from -> Storage account -> access keys
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/0323781c-50db-4620-9ed1-d9908b0aa08b" />
 
-- 
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/9c163596-e97b-42ed-995f-cdb4d41bb127" />
+- upload orders.csv file in landing folder of ADLS
+- check the mount point
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/f5cda8da-bbeb-4d71-ad61-9920450a874d" />
 
 
 
