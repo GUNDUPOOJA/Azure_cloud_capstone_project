@@ -13,6 +13,7 @@
 - ADF is a storage event trigger as soon as the file arrives, it triggers the pipeline
 - DF will then trigger databricks notebook which will have your code to perform those 2 checks - then we move the file to staging or discarded folder
 
+**Building project pipeline resource creation**
 Let us create the resources
 1. Storage account - trendytechsaproject
 - In this storage account -create sales container - create 3 folders - landing, staging and discarded
@@ -20,7 +21,6 @@ Let us create the resources
 3. create a Data Factory service - trendytechsalesdfproject
 
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/e4631820-e45c-4c4e-8ad7-b7ffa8835030" />
-
 
 - we need to connect Data factory to two components
   1. ADLS Gen2
@@ -38,7 +38,6 @@ Let us create the resources
 - storing the token directly isn't a good practice, store in keyvault
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/221f8a80-6687-4a36-9a16-0f67ffbf1445" />
 
-  
 - create a keyvault service(name - trendytechsalesprojectkv) and store this token credential over there
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/2d019b24-e195-4af8-bdf8-34edef0e2cbc" />
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/0b5c8fdf-f34f-462e-8fe3-3c8e4af2d3c1" />
@@ -50,6 +49,9 @@ Let us create the resources
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/74951a13-ff2c-45fe-829c-cf1a90162acc" />
 
 we created 3 linked services so far..
+
+**Creating Azure SQL DB - Lookup Table**
+
 
 
 
