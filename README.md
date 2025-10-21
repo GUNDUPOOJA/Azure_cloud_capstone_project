@@ -67,7 +67,10 @@ we created 3 linked services so far..
 - insert into valid_order_status values('ON_HOLD'),('PAYMENT_REVIEW'),('PROCESSING'),('CLOSED'),('SUSPECTED_FRAUD'),('COMPLETE'),('PENDING'),('CANCELLED'),('PENDING_PAYMENT')
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/679741d8-8cee-492c-aaf6-d2abd5805561" />
 
-
+**Developing Logic using Interactive Databricks cluster**
+- Lets create an interactive cluster in databricks, later will schedule this notebook through our job cluster.
+- Storage event trigger in ADF will trigger the pipeline means it will execute the databricks notebook
+- 
 
 
 
