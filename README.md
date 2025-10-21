@@ -13,6 +13,13 @@
 - ADF is a storage event trigger as soon as the file arrives, it triggers the pipeline
 - DF will then trigger databricks notebook which will have your code to perform those 2 checks - then we move the file to staging or discarded folder
 
+1. storage account
+2. Databricks workspace
+3. Data factory - 3 linked services
+4. Azure SQL DB - to store valid_order_status table
+5. Create interactive cluster in Databricks
+
+
 **Building project pipeline resource creation**
 Let us create the resources
 1. Storage account - trendytechsaproject
@@ -51,8 +58,14 @@ Let us create the resources
 we created 3 linked services so far..
 
 **Creating Azure SQL DB - Lookup Table**
-
-
+- we have a list of order_status we need to validate, this list is dynamic, we might have to keep this in a lookup in a database, whenever the list of order status is changed, we again verify against the db
+- Azure SQL db - To keep list of valid status in a lookup
+- Azure sql db name - trendytechsqldbproject
+- Azure sql db server name - trendytechsqlserverprojectt
+- once the db is ready, we need to create a table( table_name : valid_order_status)
+- create table valid_order_status(status_name varchar(50))
+- insert into valid_order_status values('ON_HOLD'),('PAYMENT_REVIEW'),('PROCESSING'),('CLOSED'),('SUSPECTED_FRAUD'),('COMPLETE'),('PENDING'),('CANCELLED'),('PENDING_PAYMENT')
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/679741d8-8cee-492c-aaf6-d2abd5805561" />
 
 
 
