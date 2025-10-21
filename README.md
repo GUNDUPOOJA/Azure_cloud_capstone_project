@@ -82,6 +82,13 @@ extra_configs = {'accesskey from ADF'}`
 - upload orders.csv file in landing folder of ADLS
 - check the mount point
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/f5cda8da-bbeb-4d71-ad61-9920450a874d" />
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/4c662964-de3f-42d6-9bc2-c43bc22bcafc" />
+
+In our databricks Notebook so far we did
+1. we create a mountpoint
+2. we wrote the spark code to read orders.csv in a dataframe and apply the first validation.. i.e order_id should not repeat
+3. if everything is fine, we are creating an orders table.
+
 
 
 
