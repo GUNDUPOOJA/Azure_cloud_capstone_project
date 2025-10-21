@@ -70,9 +70,15 @@ we created 3 linked services so far..
 **Developing Logic using Interactive Databricks cluster**
 - Lets create an interactive cluster in databricks, later will schedule this notebook through our job cluster.
 - Storage event trigger in ADF will trigger the pipeline means it will execute the databricks notebook
+- we need to create a **mount point** to read data from storage account
+  
+- `dbutils.fs.mount(source = 'wasbs://sales@trendytechsaproject.blob.core.windows.net', mount_point = '/mnt/sales',
+extra_configs = {'accesskey from ADF'}`
+
+- Get the extra configs from -> Storage account -> access keys
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/0323781c-50db-4620-9ed1-d9908b0aa08b" />
+
 - 
-
-
 
 
 
