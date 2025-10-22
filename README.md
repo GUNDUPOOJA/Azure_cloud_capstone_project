@@ -110,13 +110,17 @@ dbpassword : 'sql-password'
   
 - `display(ValidstatusDF )`
 
+- `ValidstatusDF.CreateOrReplaceTempview("valid_status")`
+
 - we have stored db password in keyvault, but databricks can't access key vault directly, its a third party service - it will retrieve it using secret scope
 - databricks -> secret scope -> connects to key vault
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/95052586-dbb8-4065-b902-f839d0dc4108" />
 - Get the key vault uri and resource ID from key vault properties 
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/82c787cd-4350-4d29-aa16-476f1225c0c4" />
 
-- 
+- we were able to connect to sql db and read the table into a df
+- `invalid_rows_df = spark.sql(select * from orders where order_status not in (select * from order_status))`
+- ``
 
 
 
