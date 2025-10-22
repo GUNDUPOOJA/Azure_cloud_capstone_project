@@ -83,12 +83,40 @@ extra_configs = {'accesskey from ADF'}`
 - check the mount point
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/f5cda8da-bbeb-4d71-ad61-9920450a874d" />
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/4c662964-de3f-42d6-9bc2-c43bc22bcafc" />
+- `dbutils.notebook.exit('{"errorFlg": "true", "errorMsg": "Orderid is repeated"}')`
 
 In our databricks Notebook so far we did
 1. we create a mountpoint
 2. we wrote the spark code to read orders.csv in a dataframe and apply the first validation.. i.e order_id should not repeat
-3. if everything is fine, we are creating an orders table.
+4. if everything is fine, we are creating an orders table.
+5. we need to apply second validation - order_status is valid or not - To do this we need connectivity to Azure SQL DB from our databricks notebook
+we need few details :
+`dbserver : 'trendytechsqlserverprojectt'
+dbport :'1433'
+dbname : 'trendytechsqldbproject'
+dbusername : 'ttsqluser'
+dbpassword : 'sql-password'
+`
 
+- `connectionUrl = 'jdbc:sqlserver://{}.database.windows.net:{}; database = {} ; user={}; '.format(dbServer, dbPort, dbName, dbUser)`
+
+- `dbPassword = dbutils.secrets.get(scope = databricksScope, key = 'sql-password')`
+  
+- `connectionProperties = {
+      'password' : dbPassword,
+      'driver': 'com.microsoft.sqlserver.jdbc.SQLServerDriver}`
+  
+- `ValidstatusDF = spark.read.jdbc(url = connectionUrl, table = 'db0.valid_order_status' properties = connectionProperties`
+  
+- `display(ValidstatusDF )`
+
+- we have stored db password in keyvault, but databricks can't access key vault directly, its a third party service - it will retrieve it using secret scope
+- databricks -> secret scope -> connects to key vault
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/95052586-dbb8-4065-b902-f839d0dc4108" />
+- Get the key vault uri and resource ID from key vault properties 
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/82c787cd-4350-4d29-aa16-476f1225c0c4" />
+
+- 
 
 
 
