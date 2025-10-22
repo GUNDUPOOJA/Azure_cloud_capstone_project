@@ -140,10 +140,17 @@ As soon as the file lands in sales container landing folder - execute this noteb
 - then we developed the databricks notebook code with interactive cluster, after the code was developed we terminated the cluster and then we created a df pipeline (storage event trigger) as soon as file arrives in landing folder it will trigger the pipeline.
   
 **USE CASE 2:Parameterized approach to dynamically read file names**
+- **Problem statement:**
+- Right now, our solution caters only to orders.csv, we have hardcoded it, what if the problem says it can be any file which is in landing folder.
+- Previously, we have created a trigger with hardcoded values, but we need to create parameters for our pipeline
+- First trigger should dynamically read the filename - this internally should be passed to the pipeline - it should be passed to the databricks notebook
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/41fd32de-35f1-490b-964b-9a663e360cae" />
+- we want to retrieve the exact file name - trigger has the way we can say @triggerBody().filename
+**File name flows from trigger -> pipeline -> Databricks**
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/7df93a73-6709-45c9-9d27-1fe8d7c1c3d4" />
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/620e1ef2-2b62-4727-a1fa-8ef737684282" />
 
-
-
-
+- 
 
 
 
