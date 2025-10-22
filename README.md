@@ -120,7 +120,28 @@ dbpassword : 'sql-password'
 
 - we were able to connect to sql db and read the table into a df
 - `invalid_rows_df = spark.sql(select * from orders where order_status not in (select * from order_status))`
-- ``
+- Refer sales_notebook databricks ( attached in this repository)
+
+## Creation of Azure Data Factory pipeline with Storage Event Trigger
+As soon as the file lands in sales container landing folder - execute this notebook 
+- Create a data factory pipeline
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/47912c09-dfc8-44d1-840a-a793fa824c80" />
+- Add notebook path as well
+- Now, add a trigger
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/a940d78b-e84a-440b-80ca-0ffd6d12558d" />
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/26523561-fd68-4f76-ae28-033f0815c2d6" />
+- The code will get executed as part of the notebook, and the created cluster will be destroyed later.
+
+- In databricks we have job cluster, interactive cluster, resource pool(few machines will come as part of the cluster)
+- If we have a pool, the time to provision a cluster will become less
+
+**Summary of use case 1:**
+- We basically first created a storage account, datafactory with 3 linked services, databricks, azure sql db to store lookup table
+- then we developed the databricks notebook code with interactive cluster, after the code was developed we terminated the cluster and then we created a df pipeline (storage event trigger) as soon as file arrives in landing folder it will trigger the pipeline.
+  
+**USE CASE 2:Parameterized approach to dynamically read file names**
+
+
 
 
 
