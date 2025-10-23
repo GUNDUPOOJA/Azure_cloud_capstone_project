@@ -174,10 +174,28 @@ As soon as the file lands in sales container landing folder - execute this noteb
 
 - IAM dashboard - create access key - save access key and secret access key and store it in Key vault
 - Go to ADF and create a linked service for AWS S3
+- create a copy activity and give all the parameters source, sink file paths etc and trigger the pipeline
 - As soon as orders file arrives in landing folder of ADLS Gen2, additionally we need to get order_items file from AWS S3 and bring to ADLS Gen2 and execute databricks notebook
 
+### Populating table in Azure SQL DB
 - we would have customers data in Azure SQL DB - we need to take the file from here
-- 
+- create linked service that connects to ADLS Gen2 (already created)
+- create another linked service that connects to Azure SQL DB
+- create a customers folder in ADLS storage and upload customers.csv file
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/bdaa2ca4-1cf3-4ca0-8da1-abf6e3d36079" />
+- create a table in Azure SQL DB
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/d092e425-93dd-4f71-99b5-bcbf41767d9f" />
+- create a pipeline with copy activity
+
+### Final results - joining tables
+- we want to do some validations in the notebook
+- we want to find out how many orders are placed by each customer and how much amount is spent by each customer
+- we have orders.csv ( orders view in spark)
+- order_items.csv (we need to create spark dataframe from the csv file)
+- customers (its in Azure SQL DB - we can create spark dataframe by directly reading it from JDBC)
+- put the results back to Azure SQL DB - for reporting purposes
+  
+
 
 
 
