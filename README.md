@@ -120,11 +120,81 @@ dbpassword : 'sql-password'
 
 - we were able to connect to sql db and read the table into a df
 - `invalid_rows_df = spark.sql(select * from orders where order_status not in (select * from order_status))`
-- ``
+- Refer sales_notebook databricks ( attached in this repository)
 
+## Creation of Azure Data Factory pipeline with Storage Event Trigger
+As soon as the file lands in sales container landing folder - execute this notebook 
+- Create a data factory pipeline
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/47912c09-dfc8-44d1-840a-a793fa824c80" />
+- Add notebook path as well
+- Now, add a trigger
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/a940d78b-e84a-440b-80ca-0ffd6d12558d" />
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/26523561-fd68-4f76-ae28-033f0815c2d6" />
+- The code will get executed as part of the notebook, and the created cluster will be destroyed later.
 
+- In databricks we have job cluster, interactive cluster, resource pool(few machines will come as part of the cluster)
+- If we have a pool, the time to provision a cluster will become less
 
+**Summary of use case 1:**
+- We basically first created a storage account, datafactory with 3 linked services, databricks, azure sql db to store lookup table
+- then we developed the databricks notebook code with interactive cluster, after the code was developed we terminated the cluster and then we created a df pipeline (storage event trigger) as soon as file arrives in landing folder it will trigger the pipeline.
+  
+**USE CASE 2:Parameterized approach to dynamically read file names**
+- **Problem statement:**
+- Right now, our solution caters only to orders.csv, we have hardcoded it, what if the problem says it can be any file which is in landing folder.
+- Previously, we have created a trigger with hardcoded values, but we need to create parameters for our pipeline
+- First trigger should dynamically read the filename - this internally should be passed to the pipeline - it should be passed to the databricks notebook
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/41fd32de-35f1-490b-964b-9a663e360cae" />
+- we want to retrieve the exact file name - trigger has the way we can say @triggerBody().filename
+**File name flows from trigger -> pipeline -> Databricks**
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/7df93a73-6709-45c9-9d27-1fe8d7c1c3d4" />
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/620e1ef2-2b62-4727-a1fa-8ef737684282" />
 
+- <p> when triggering the pipeline, sometimes we face quota exceed error as it creates new cluster on the go and takes time to provision resources, instead of new job cluster in Databricks linkedservice change the option to existing cluster - so that it uses existing cluster. </p>
+
+**Making the pipeline generic - Generic Mount code | Secured storage account key**
+- <p> we made the filename dynamic but the problem we were facing is - the code for mounting works for the first time and from second time we need to remove it, we have to generalize it and make sure it works all the time.</p>
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/09ae99b0-3059-424b-9751-6e4add386dd4" />
+
+- while mounting in extra_configs section - account key is hardcoded, keep it in keyvault
+
+### Ingesting data from AWS S3 to Azure
+- so far we did
+- 1. dynamic filename
+  2. For mounting we have made generic code
+  3. storage account key is secure
+- We have orders.csv(orders data) - we already processed this file
+- order_items (Amazon s3 in JSON Format)
+- customers (will be published by an agency in Azure SQL DB )
+  
+- Get order_items from AWS S3 to ADLS Gen2 (using ADF)
+- create bucket - trendytechsalesproject
+- upload order_items.json file in order_items folder
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/d37356db-2a66-40ec-b45f-e95d3e4e7bf0" />
+
+- IAM dashboard - create access key - save access key and secret access key and store it in Key vault
+- Go to ADF and create a linked service for AWS S3
+- create a copy activity and give all the parameters source, sink file paths etc and trigger the pipeline
+- As soon as orders file arrives in landing folder of ADLS Gen2, additionally we need to get order_items file from AWS S3 and bring to ADLS Gen2 and execute databricks notebook
+
+### Populating table in Azure SQL DB
+- we would have customers data in Azure SQL DB - we need to take the file from here
+- create linked service that connects to ADLS Gen2 (already created)
+- create another linked service that connects to Azure SQL DB
+- create a customers folder in ADLS storage and upload customers.csv file
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/bdaa2ca4-1cf3-4ca0-8da1-abf6e3d36079" />
+- create a table in Azure SQL DB
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/d092e425-93dd-4f71-99b5-bcbf41767d9f" />
+- create a pipeline with copy activity
+
+### Final results - joining tables
+- we want to do some validations in the notebook
+- we want to find out how many orders are placed by each customer and how much amount is spent by each customer
+- we have orders.csv ( orders view in spark)
+- order_items.csv (we need to create spark dataframe from the csv file)
+- customers (its in Azure SQL DB - we can create spark dataframe by directly reading it from JDBC)
+- put the results back to Azure SQL DB - for reporting purposes
+  
 
 
 
