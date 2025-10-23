@@ -150,10 +150,34 @@ As soon as the file lands in sales container landing folder - execute this noteb
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/7df93a73-6709-45c9-9d27-1fe8d7c1c3d4" />
 - <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/620e1ef2-2b62-4727-a1fa-8ef737684282" />
 
+- <p> when triggering the pipeline, sometimes we face quota exceed error as it creates new cluster on the go and takes time to provision resources, instead of new job cluster in Databricks linkedservice change the option to existing cluster - so that it uses existing cluster. </p>
+
+**Making the pipeline generic - Generic Mount code | Secured storage account key**
+- <p> we made the filename dynamic but the problem we were facing is - the code for mounting works for the first time and from second time we need to remove it, we have to generalize it and make sure it works all the time.</p>
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/09ae99b0-3059-424b-9751-6e4add386dd4" />
+
+- while mounting in extra_configs section - account key is hardcoded, keep it in keyvault
+
+### Ingesting data from AWS S3 to Azure
+- so far we did
+- 1. dynamic filename
+  2. For mounting we have made generic code
+  3. storage account key is secure
+- We have orders.csv(orders data) - we already processed this file
+- order_items (Amazon s3 in JSON Format)
+- customers (will be published by an agency in Azure SQL DB )
+  
+- Get order_items from AWS S3 to ADLS Gen2 (using ADF)
+- create bucket - trendytechsalesproject
+- upload order_items.json file in order_items folder
+- <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/d37356db-2a66-40ec-b45f-e95d3e4e7bf0" />
+
+- IAM dashboard - create access key - save access key and secret access key and store it in Key vault
+- Go to ADF and create a linked service for AWS S3
+- As soon as orders file arrives in landing folder of ADLS Gen2, additionally we need to get order_items file from AWS S3 and bring to ADLS Gen2 and execute databricks notebook
+
+- we would have customers data in Azure SQL DB - we need to take the file from here
 - 
-
-
-
 
 
 
